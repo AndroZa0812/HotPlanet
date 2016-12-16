@@ -1,0 +1,24 @@
+public - גלוי לכולם,  אפשר לגשת אליו ישירות
+private  - לא גלוי, גלוי רק במחלקה עצמה, אפשר לגשת מחוץ למחלקה עם פונקציה
+protected - משתנה כשאתה רוצה לחשוף משתנה / פונקציה שלך בכל המחלקות שמרחיבות את המחלקה הנוכחית .
+public static - גלוי לכולם, סטטי ואין אפשרות לשנות אותו אחר כך
+
+פונקציה שהגדרנו בדף PHP, onclick
+function deleteUser(id) {
+    $.ajax =     קריאה לפונקציה מובנת בגאווה סקריפט, בקשה לשרת של קובץ PHP בלי לרענן את הדף
+    type = סוג הטופס
+    url = הדף שאיליו אנחנו ניגשים עם הבקשה
+    data = המידע שאנחנו מעבירים לדף
+    success = שם הפונקציה שנקראת אחרי שהבקשה הסתיימה
+    $.ajax({
+        type: 'post',
+        url: '../deluser.php',
+        data: { UserID: id },
+        success: delOkay
+    });
+}
+
+function delOkay(data) {
+    // it means: go to the table with the ID of users and then go to the tbody section which is the table body
+    $("table#users tbody").html(data);
+}

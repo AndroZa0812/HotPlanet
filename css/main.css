@@ -1,0 +1,102 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #ddd;
+    font-size: 18px;
+    color: black;
+    font-family: 'Arimo', sans-serif;
+}
+
+.clear {
+    clear: both;
+}
+
+.nicebutton
+{
+    background-color: #0A9BBD;
+    color:white;
+    padding:5px;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+}
+
+
+.wrap {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+
+.form-control {
+    padding: 5px;
+    width: 250px;
+}
+
+#info {
+    height: 100px;
+}
+
+h1.title {
+    color: #0A9BBD;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed lightgray;
+    font-size: 30px;
+}
+
+#logo {
+    float: left;
+}
+
+header#top {
+    background-color: #0A9BBD;
+    color: white;
+    padding: 20px;
+    min-height: 50px;
+    height: auto;
+}
+
+header#top ul {
+    float: right;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 30px;
+}
+
+header#top ul li {
+    display: inline-flex;
+    margin-left: 10px;
+}
+
+header#top ul li a {
+    color: whitesmoke;
+    text-decoration: none;
+    border: 1px solid darkred;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.table
+{
+    direction: ltr;
+}
+#imagesize img{
+    height: 250px;
+    width:250px;
+}
+header#top ul li a:hover {
+    text-decoration: underline;
+    background-color: whitesmoke;
+    color: black;
+}
+#moviedirection
+{
+    direction: ltr;
+}
+main {
+    margin-top: 50px;
+    background-color: #eee;
+    padding: 20px;
+}
