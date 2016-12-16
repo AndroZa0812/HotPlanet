@@ -16,9 +16,9 @@
         {
             echo("ברוך הבא מי שזה לא יהיה");
         }
-        elseif($_SESSION["LOGIN"]=="LogedIn")
+        elseif($_SESSION["LOGIN"]=="LoggedIn")
         {
-            echo("$_SESSION['UserName']")
+            echo('$_SESSION["UserName"]');
         }
         ?>
 
