@@ -36,7 +36,9 @@ function checkRegister(form)
     var pass = document.getElementById('pass').value;
     var age = document.getElementById('age').value;
 
-
+    if(username == '') {
+        alert("חובה להכניס שם משתמש");
+    }
     if(firstname == '') {
         alert("חובה למלא שם פרטי");
     }

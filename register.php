@@ -5,6 +5,7 @@ $signedUp = false;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+    $username = &$_POST['username'];
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
@@ -13,6 +14,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $errors = array();
 
+
+    if(empty($username))
+        array_push($errors,'חובה לכתוב שם פרטי');
     if(empty($firstname))
         array_push($errors,'חובה לכתוב שם פרטי');
     if(empty($lastname))
@@ -27,18 +31,37 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     {
         $noregister = true;
     }else{
-        $signedUp = true;
+        $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE `email` = :email');
+        $db->stmt->execute([
+            'email' => $email
+        ]);
+        if($db->stmt->rowCount()) {
+            array_push($errors, "דואר אלקטרוני או המשתמש תפוסים");
+            $noregister = true;
+        }
+        else{
+            $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE `username` = :username');
+            $db->stmt->execute([
+                'username' => $username
+            ]);
+            if($db->stmt->rowCount()) {
+                array_push($errors, "דואר אלקטרוני או המשתמש תפוסים");
+                $noregister = true;
+            }
+            else {
+                $db->stmt = $db->con()->prepare('INSERT INTO `users` (username, firstname, lastname, email, password, age) VALUES (:username, :firstname, :lastname, :email, :password, :age)');
+                $db->stmt->bindValue(":username", $username);
+                $db->stmt->bindValue(":firstname", $firstname);
+                $db->stmt->bindValue(":lastname", $lastname);
+                $db->stmt->bindValue(":email", $email);
+                $db->stmt->bindValue(":password", $password);
+                $db->stmt->bindValue(":age", $age);
 
-        $db->stmt = $db->con()->prepare('INSERT INTO `users` (firstname, lastname, email, password, age) VALUES (:firstname, :lastname, :email, :password, :age)');
-        $db->stmt->bindValue(":firstname", $firstname);
-        $db->stmt->bindValue(":lastname", $lastname);
-        $db->stmt->bindValue(":email", $email);
-        $db->stmt->bindValue(":password", $password);
-        $db->stmt->bindValue(":age", $age);
+                if($db->stmt->execute()) {
+                    $signedUp = true;
 
-        if($db->stmt->execute()) {
-            $signedUp = true;
-
+                }
+            }
         }
 
     }
@@ -74,6 +97,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ?>
               <h1  class="title">הרשמה</h1>
 
+                <tr>
+                    <td>שם משתמש:</td>
+                    <td><input type="text" placeholder="שם משתמש" id="username" name="username" class="formNice"/></td>
+                </tr>
                 <tr>
                     <td>שם פרטי:</td>
                     <td><input type="text" placeholder="שם פרטי" id="firstname" name="firstname" class="formNice"/></td>

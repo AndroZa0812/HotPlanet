@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo ROOT . '/public/css/main.css'; ?>">
 
-
     <link rel="icon" type="image/png" href="img/favicon.png">
 
     <script src="js/app.js" type="text/javascript"></script>

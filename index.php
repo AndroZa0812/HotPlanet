@@ -12,16 +12,15 @@
 <div class="wrap">
     <main>
         <?php
-        if($_SESSION["LOGIN"]=="Guest")
-        {
-            echo("ברוך הבא מי שזה לא יהיה");
-        }
-        elseif($_SESSION["LOGIN"]=="LoggedIn")
-        {
-            echo('$_SESSION["UserName"]');
-        }
-        ?>
 
+        if($_SESSION['LOGIN']) {
+            $user = $_SESSION['UserName'];
+            printf("ברוך הבא, %s.", $user->firstname);
+        } else {
+            echo 'ברוך הבא אורח! ישרמוטה!~';
+            }
+
+        ?>
 
     </main>
 </div>

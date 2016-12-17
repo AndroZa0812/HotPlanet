@@ -1,7 +1,13 @@
 <?php
 session_start();
-$_SESSION["LOGIN"]="Guest";
-$_SESSION["UserName"]="Guest";
+
+define('ROOT', dirname(__DIR__));
+
+if(!isset($_SESSION['LOGIN'])) {
+    $_SESSION["LOGIN"] = false;
+    $_SESSION["UserName"] = "Guest";
+}
+
 spl_autoload_register('LoadClasses');
 
 define('HOST', 'localhost');

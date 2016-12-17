@@ -1,4 +1,30 @@
-<?php include 'core/init.php';  ?>
+<?php include 'core/init.php';
+
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    if(empty($email) || empty($password)) {
+        echo 'נא מלאו את הפרטים.';
+    }
+    else{
+        $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE email = ? and password = ? LIMIT 1');
+        $db->stmt->bindValue(1, $email);
+        $db->stmt->bindValue(2, $password);
+        $db->stmt->execute();
+        if(!$db->stmt->rowCount()) {
+            echo 'האימייל או סיסמא לא קיימים במערכת';
+        } else {
+            $user = $db->stmt->fetch(PDO::FETCH_OBJ);
+            $_SESSION["UserName"] = $user;
+            $_SESSION["LOGIN"] = true;
+            header('Location: index.php');
+        }
+    }
+
+}
+
+?>
 
 <!DOCTYPE html>
 <html dir="rtl">
@@ -12,35 +38,6 @@
 
 <div class="wrap">
     <main>
-        <?php
-           $loggedIn=false;
-            if($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $email = $_POST['email'];
-                $password = $_POST['password'];
-                if(empty($email) || empty($password)) {
-                    echo 'נא מלאו את הפרטים.';
-                }
-                else{
-                    $db->stmt = $db->con()->prepare('SELECT firstname FROM `users` WHERE email=? and password=?');
-                    $db->stmt->bindValue(1, $email);
-                    $db->stmt->bindValue(2, $password);
-                    $loginCheck=$db->stmt->execute();
-                        if(!$loginCheck) {
-                            echo 'האימייל או סיסמא לא קיימים במערכת';
-                        } else {
-                                $loggedIn = true;
-                                header('Location: index.php');
-                            }
-                        }
-
-            }
-            if($loggedIn == true)
-            {
-                $_SESSION["LOGIN"] = $loggedIn;
-                header("location:index.php");
-            }
-        ?>
-
         <form method="post">
             <table align="center">
                 <h1  class="title">התחברות</h1>

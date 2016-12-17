@@ -7,6 +7,8 @@
         <td><?= $movies[$i]['ageR'] ?></td>
         <td id="imagesize"><p><img src="img/<?= $movies[$i]['img']?>"/></p> </td>
         <td><input type="button" onclick="window.location.href='../buymovie.php'" class="btn btn-sm btn-danger" value="purchase"/> </td>
+        <td>
+            <a href="../Reviews.php?MovieID=<?php echo $movies[$i]['ID'] ?>">Reviews</a>
+        </td>
     </tr>
-
 <?php endfor; ?>

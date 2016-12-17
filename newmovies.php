@@ -21,10 +21,10 @@ $movies =  $db->stmt->fetchAll();?>
             <thead class="thead-inverse">
             <tr>
                 <th>#</th>
-                <th>Movie</th>
-                <th>Year</th>
-                <th>Description</th>
-                <th>Age restriction</th>
+                <th>סרט</th>
+                <th>שנה</th>
+                <th>תקציר</th>
+                <th>גיל מורשה</th>
                 <th></th>
             </tr>
             </thead>
