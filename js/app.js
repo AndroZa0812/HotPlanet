@@ -14,6 +14,21 @@ function delOkay(data) {
     $("table#users tbody").html(data);
 }
 
+function vote(id , typeOfVote) {
+    $.ajax({
+        type: 'post',
+        url: '../templates/vote.php',
+        data: { MassageID: id, typeOfVote: typeOfVote },
+        success: voteOkey
+    });
+}
+
+function voteOkey(data) {
+    // it means: go to the table with the ID of users and then go to the tbody section which is the table body
+    $("table#users tbody").html(data);
+
+}
+
 function checkLogin(form)
 {
     var email = document.getElementById('email').value;
@@ -30,6 +45,7 @@ function checkLogin(form)
 
 function checkRegister(form)
 {
+    var username = document.getElementById('username').value;
     var firstname = document.getElementById('firstname').value;
     var lastname = document.getElementById('lastname').value;
     var email = document.getElementById('email').value;

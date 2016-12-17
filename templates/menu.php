@@ -12,8 +12,11 @@
             <?php if(!$_SESSION['LOGIN']) { ?>
                 <li><a href='register.php'>הרשמה</a></li>
                 <li><a href='login.php'>התחברות</a></li>
-            <?php } else { ?>
-                <li><a href='logout.php'>התנתק</a></li>
+            <?php } else {
+                if ($_SESSION["UserName"]->admin) {?>
+                    <li><a href="admin.php">נהל משתמשים</a></li>
+                <?php } ?>
+                    <li><a href='logout.php'>התנתק</a></li>
             <?php } ?>
             <li><a href="newmovies.php">סרטים חדשים</a></li>
             <li><a href="contact.php">צור קשר</a></li>

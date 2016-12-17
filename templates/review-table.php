@@ -1,5 +1,4 @@
-
-<link rel="stylesheet" type="text/css" href="../css/main.css">
+<link rel="stylesheet" type="text/css" href="../css/main.css" xmlns="http://www.w3.org/1999/html">
 <?php for ($i = 0; $i < count($reviews); $i++): ?>
     <div class="container">
         <div class="row">
@@ -20,11 +19,16 @@
                     <div class="post-description">
                         <p><?= $reviews[$i]['info'] ?></p>
                         <div class="stats" align="left">
-                            <a href="#" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-up icon"></i>2
-                            </a>
-                            <a href="#" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-down icon"></i>12
+
+                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, 1 )" class="btn btn-secondary">
+                               <span class="glyphicon glyphicon-thumbs-up"></span>
+                                <?= $reviews[$i]['upvotes'] ?>
+                            </button>
+                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, -1 )" class="btn btn-secondary">
+                                <span class="glyphicon glyphicon-thumbs-down"></span>
+                                <?= $reviews[$i]['downvotes'] ?>
+                            </button>
+
                             </a>
                         </div>
                     </div>

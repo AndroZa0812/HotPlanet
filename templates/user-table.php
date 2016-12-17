@@ -1,6 +1,7 @@
 <?php for ($i = 0; $i < count($users); $i++): ?>
     <tr>
-        <th scope="row"><?= $users[$i]['id'] ?></th>
+        <th scope="row"  style="text-align: right"><?= $users[$i]['id'] ?></th>
+        <td><?= $users[$i]['username'] ?></td>
         <td><?= $users[$i]['firstname'] ?></td>
         <td><?= $users[$i]['lastname'] ?></td>
         <td><?= $users[$i]['email'] ?></td>

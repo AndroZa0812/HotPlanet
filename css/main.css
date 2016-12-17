@@ -11,8 +11,7 @@ body {
     clear: both;
 }
 
-.nicebutton
-{
+.nicebutton {
     background-color: #0A9BBD;
     color:white;
     padding:5px;
@@ -27,7 +26,9 @@ body {
     max-width: 1200px;
 }
 
-
+.voteIcon {
+   margin-left: 8px;
+}
 .form-control {
     padding: 5px;
     width: 250px;
@@ -91,8 +92,7 @@ header#top ul li a:hover {
     background-color: whitesmoke;
     color: black;
 }
-#moviedirection
-{
+#moviedirection {
     direction: ltr;
 }
 main {

@@ -5,7 +5,7 @@ $reviews = null;
 $massage_received = false;
 $errors = [];
 if(isset($_GET['MovieID'])) {
-    $db->stmt = $db->con()->prepare('SELECT * FROM `messages` WHERE movie=?');
+    $db->stmt = $db->con()->prepare('SELECT * FROM `reviews` WHERE movie=?');
     $db->stmt->bindValue(1, $_GET['MovieID']);
     $db->stmt->execute();
     if($db->stmt->rowCount()) {
@@ -21,7 +21,7 @@ if(isset($_POST['review']) && isset($_POST['rank']))
     if(empty($review))
         array_push($errors,'נא רשום ביקורת');
     else{
-            $db->stmt = $db->con()->prepare('INSERT INTO `messages` ( movie,username,info,received_rank) VALUES (?,?,?,?)');
+            $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info,received_rank) VALUES (?,?,?,?)');
             $db->stmt->bindValue("1", $_GET["MovieID"]);
             $db->stmt->bindValue("2", $_SESSION["UserName"]->username);
             $db->stmt->bindValue("3", $review);
