@@ -17,7 +17,7 @@
             $user = $_SESSION['UserName'];
             printf("ברוך הבא, %s.", $user->firstname);
         } else {
-            echo 'ברוך הבא אורח! ישרמוטה!~';
+            echo 'ברוך הבא אורח.';
             }
 
         ?>

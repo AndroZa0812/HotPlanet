@@ -2,10 +2,9 @@
     <div class="wrap">
         <div id="logo">
             <a href="index.php">
-                <img src="../img/logo-first.png" alt="הוט פלנט" title="הוט פלנט"/>
+                <img src="../img/logo-v2.png" alt="הוט פלנט" title="הוט פלנט"/>
             </a>
         </div>
-
         <ul>
             <li><a href="index.php">דף הבית</a></li>
 
