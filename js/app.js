@@ -1,5 +1,3 @@
-
-
 function deleteUser(id) {
     $.ajax({
         type: 'post',
@@ -24,8 +22,7 @@ function vote(id , typeOfVote) {
 }
 
 function voteOkey(data) {
-    // it means: go to the table with the ID of users and then go to the tbody section which is the table body
-    $("table#users tbody").html(data);
+    $("table#reviews tbody").html(data);
 
 }
 
@@ -75,11 +72,9 @@ function checkRegister(form)
 }
 function checkContact(form)
 {
-    var firstname = document.getElementById('firstname').value;
+    var info = document.getElementById('firstname').value;
     var lastname = document.getElementById('lastname').value;
     var info = document.getElementById('info').value;
-
-
 
     if(firstname == '') {
         alert("חובה למלא שם פרטי");
@@ -94,3 +89,8 @@ function checkContact(form)
         form.submit();
     }
 }
+
+$("#addreview").click(function () {
+    var data = $("#addreview :input").serializeArray();
+    $.post()
+})

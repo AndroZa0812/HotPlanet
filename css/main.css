@@ -1,7 +1,10 @@
 body {
     padding: 0;
     margin: 0;
-    background-color: #ddd;
+    background-color: #000000;
+    background-image: url("../img/dlnFxZo.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
     font-size: 18px;
     color: black;
     font-family: 'Arimo', sans-serif;
@@ -47,14 +50,18 @@ h1.title {
     font-size: 30px;
 }
 
-#logo {
+#logo img{
     float: left;
+    height: 125px;
+    width:auto;
+    position: relative;
 }
 
 header#top {
     background-color: #0A9BBD;
+    background-image: url("");
     color: white;
-    padding: 20px;
+    padding: 5px;
     min-height: 50px;
     height: auto;
 }
@@ -205,3 +212,4 @@ main {
 .post .post-footer .comments-list .comment > .comments-list {
     margin-left: 50px;
 }
+

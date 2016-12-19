@@ -21,7 +21,7 @@ if(isset($_POST['review']) && isset($_POST['rank']))
     if(empty($review))
         array_push($errors,'נא רשום ביקורת');
     else{
-            $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info,received_rank) VALUES (?,?,?,?)');
+            $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info,rank) VALUES (?,?,?,?)');
             $db->stmt->bindValue("1", $_GET["MovieID"]);
             $db->stmt->bindValue("2", $_SESSION["UserName"]->username);
             $db->stmt->bindValue("3", $review);
@@ -86,7 +86,7 @@ if(isset($_POST['review']) && isset($_POST['rank']))
 
                                 <tr>
                                     <td colspan="2">
-                                        <input type="submit" class="nicebutton" onclick="checkcomment(this.form)" value="הוספת ביקורת" name="addcomment"/>
+                                        <input type="submit" class="nicebutton" id="addreview" onclick="checkcomment(this.form)" value="הוספת ביקורת" name="addcomment"/>
                                     </td>
                                 </tr>
                         </form>

@@ -14,8 +14,8 @@ $typeOfVote = $_POST['typeOfVote'];
         $db->stmt->execute();
     }
 
-$db->stmt = $db->con()->prepare('SELECT * FROM `users`');
+$db->stmt = $db->con()->prepare('SELECT * FROM `reviews`');
 $db->stmt->execute();
-$users =  $db->stmt->fetchAll();
+$reviews =  $db->stmt->fetchAll();
 
-include "templates/review-table.php";
+include "review-table.php";

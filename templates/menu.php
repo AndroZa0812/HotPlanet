@@ -1,10 +1,10 @@
 <header id="top">
     <div class="wrap">
-        <span id="logo">
+        <div id="logo">
             <a href="index.php">
-                <img src="img/logo.png" alt="הוט פלנט" title="הוט פלנט"/>
+                <img src="../img/logo-first.png" alt="הוט פלנט" title="הוט פלנט"/>
             </a>
-        </span>
+        </div>
 
         <ul>
             <li><a href="index.php">דף הבית</a></li>
