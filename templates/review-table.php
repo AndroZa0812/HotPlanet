@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="../css/main.css" xmlns="http://www.w3.org/1999/html">
+
 <?php for ($i = 0; $i < count($reviews); $i++): ?>
     <div class="container">
         <div class="row">
@@ -19,14 +20,13 @@
                     <div class="post-description">
                         <p><?= $reviews[$i]['info'] ?></p>
                         <div class="stats" align="left">
-
-                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, 1 )" class="btn btn-secondary">
+                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, 1)" class="btn btn-secondary">
                                <span class="glyphicon glyphicon-thumbs-up"></span>
-                                <?= $reviews[$i]['upvotes'] ?>
+                                <span id="upvotenum-<?php echo $reviews[$i]['ID']?>"><?= $reviews[$i]['upvotes'] ?></span>
                             </button>
-                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, -1 )" class="btn btn-secondary">
+                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, -1)" class="btn btn-secondary">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
-                                <?= $reviews[$i]['downvotes'] ?>
+                                <span id="downvotenum-<?php echo $reviews[$i]['ID']?>"><?= $reviews[$i]['downvotes'] ?></span>
                             </button>
 
                             </a>

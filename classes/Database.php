@@ -18,4 +18,8 @@ class Database
     public function con() {
         return $this->pdo;
     }
+
+    public function prepare($query, Array $driverOptions = []) {
+        $this->stmt = $this->pdo->prepare($query, $driverOptions);
+    }
 }

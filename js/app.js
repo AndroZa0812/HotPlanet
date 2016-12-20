@@ -12,17 +12,25 @@ function delOkay(data) {
     $("table#users tbody").html(data);
 }
 
-function vote(id , typeOfVote) {
+function vote(id , typeOfVote , numOfVotes) {
     $.ajax({
         type: 'post',
         url: '../templates/vote.php',
-        data: { MassageID: id, typeOfVote: typeOfVote },
-        success: voteOkey
+        dataType: 'JSON',
+        data: { MassageID: id, typeOfVote: typeOfVote, test: numOfVotes },
+        success: voteOkay
     });
 }
 
-function voteOkey(data) {
-    $("table#reviews tbody").html(data);
+function voteOkay(data) {
+    const voteCount = data.voteCount;
+    const reviewID  = data.reviewID;
+
+    if(data.voteType == 1) {
+        $("span#upvotenum-" + reviewID).html('' + voteCount);
+    } else {
+        $("span#downvotenum-" + reviewID).html('' + voteCount);
+    }
 
 }
 

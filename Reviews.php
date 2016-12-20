@@ -86,7 +86,7 @@ if(isset($_POST['review']) && isset($_POST['rank']))
 
                                 <tr>
                                     <td colspan="2">
-                                        <input type="submit" class="nicebutton" id="addreview" onclick="checkcomment(this.form)" value="הוספת ביקורת" name="addcomment"/>
+                                        <input type="submit" class="nicebutton" id="addreview" onclick="addreview(this.form)" value="הוספת ביקורת" name="addcomment"/>
                                     </td>
                                 </tr>
                         </form>
