@@ -3,69 +3,66 @@
 $noregister = false;
 $signedUp = false;
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token'])) {
+    if(Token::check($_POST['token'])) {
+        $username = $_POST['username'];
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $email = $_POST['email'];
+        $password=$_POST['password'];
+        $password = password_hash($password,PASSWORD_DEFAULT);
+        $age = $_POST['age'];
 
-    $username = &$_POST['username'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $age = $_POST['age'];
+        $errors = array();
 
-    $errors = array();
-
-
-    if(empty($username))
-        array_push($errors,'חובה לכתוב שם פרטי');
-    if(empty($firstname))
-        array_push($errors,'חובה לכתוב שם פרטי');
-    if(empty($lastname))
-        array_push($errors,'חובה לכתוב שם משפחה');
-    if(empty($email))
-        array_push($errors,'חובה לכתוב אימייל');
-    if(empty($password))
-        array_push($errors,'חובה לכתוב סיסמא');
-    if(empty($age))
-        array_push($errors,'חובה לכתוב גיל');
-    if(!empty($errors))
-    {
-        $noregister = true;
-    }else{
-        $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE `email` = :email');
-        $db->stmt->execute([
-            'email' => $email
-        ]);
-        if($db->stmt->rowCount()) {
-            array_push($errors, "דואר אלקטרוני או המשתמש תפוסים");
+        if (empty($username))
+            array_push($errors, 'חובה לכתוב שם משתמש');
+        if (empty($firstname))
+            array_push($errors, 'חובה לכתוב שם פרטי');
+        if (empty($lastname))
+            array_push($errors, 'חובה לכתוב שם משפחה');
+        if (empty($email))
+            array_push($errors, 'חובה לכתוב אימייל');
+        if (empty($password))
+            array_push($errors, 'חובה לכתוב סיסמא');
+        if (empty($age))
+            array_push($errors, 'חובה לכתוב גיל');
+        if (!empty($errors)) {
             $noregister = true;
-        }
-        else{
-            $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE `username` = :username');
+        } else {
+            $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE `email` = :email');
             $db->stmt->execute([
-                'username' => $username
+                'email' => $email
             ]);
-            if($db->stmt->rowCount()) {
+            if ($db->stmt->rowCount()) {
                 array_push($errors, "דואר אלקטרוני או המשתמש תפוסים");
                 $noregister = true;
-            }
-            else {
-                $db->stmt = $db->con()->prepare('INSERT INTO `users` (username, firstname, lastname, email, password, age) VALUES (:username, :firstname, :lastname, :email, :password, :age)');
-                $db->stmt->bindValue(":username", $username);
-                $db->stmt->bindValue(":firstname", $firstname);
-                $db->stmt->bindValue(":lastname", $lastname);
-                $db->stmt->bindValue(":email", $email);
-                $db->stmt->bindValue(":password", $password);
-                $db->stmt->bindValue(":age", $age);
+            } else {
+                $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE `username` = :username');
+                $db->stmt->execute([
+                    'username' => $username
+                ]);
+                if ($db->stmt->rowCount()) {
+                    array_push($errors, "דואר אלקטרוני או המשתמש תפוסים");
+                    $noregister = true;
+                } else {
+                    $db->stmt = $db->con()->prepare('INSERT INTO `users` (username, firstname, lastname, email, password, age) VALUES (:username, :firstname, :lastname, :email, :password, :age)');
+                    $db->stmt->bindValue(":username", $username);
+                    $db->stmt->bindValue(":firstname", $firstname);
+                    $db->stmt->bindValue(":lastname", $lastname);
+                    $db->stmt->bindValue(":email", $email);
+                    $db->stmt->bindValue(":password", $password);
+                    $db->stmt->bindValue(":age", $age);
 
-                if($db->stmt->execute()) {
-                    $signedUp = true;
+                    if ($db->stmt->execute()) {
+                        $signedUp = true;
 
+                    }
                 }
             }
+
         }
-
     }
-
 }
 
 
@@ -123,12 +120,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" class="nicebutton" onclick="checkRegister(this.form)" value="הירשם" name="resiter"/>
+                        <input type="submit" class="nicebutton" onclick="checkRegister(this.form)" value="הירשם" name="register"/>
+                        <input type="hidden" id="token" value="<?= Token::generate()?>" name="token"/>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        כבר רשום? <a href="login.php">התחבר:)</a>
+                        <a href="login.php">נרשמת כבר ? התחבר </a>
                     </td>
                 </tr>
             </table>

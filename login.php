@@ -8,20 +8,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'נא מלאו את הפרטים.';
     }
     else{
-        $db->stmt = $db->con()->prepare('SELECT * FROM `users` WHERE email = ? and password = ? LIMIT 1');
+        $db->stmt = $db->con()->prepare('SELECT password FROM `users` WHERE email = ?  LIMIT 1');
         $db->stmt->bindValue(1, $email);
-        $db->stmt->bindValue(2, $password);
         $db->stmt->execute();
-        if(!$db->stmt->rowCount()) {
-            echo 'האימייל או סיסמא לא קיימים במערכת';
-        } else {
+        $dbpass=$db->stmt->fetch(PDO::FETCH_OBJ);
+        if(password_verify($password,$dbpass->password)) {
+            $db->stmt=$db->con()->prepare('SELECT username,email,firstname,lastname,admin FROM `users` WHERE email = ?');
+            $db->stmt->bindValue(1, $email);
+            $db->stmt->execute();
             $user = $db->stmt->fetch(PDO::FETCH_OBJ);
             $_SESSION["UserName"] = $user;
             $_SESSION["LOGIN"] = true;
             header('Location: index.php');
-        }
+            }
+            else {
+            echo 'האימייל או סיסמא לא קיימים במערכת';
+            }
     }
-
 }
 
 ?>

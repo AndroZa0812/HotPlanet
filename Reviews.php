@@ -14,23 +14,26 @@ if(isset($_GET['MovieID'])) {
     }
 }
 
-if(isset($_POST['review']) && isset($_POST['rank']))
+if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
 {
-    $review = $_POST['review'];
-    $rank = $_POST['rank'];
-    if(empty($review))
-        array_push($errors,'נא רשום ביקורת');
-    else{
-            $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info,rank) VALUES (?,?,?,?)');
-            $db->stmt->bindValue("1", $_GET["MovieID"]);
-            $db->stmt->bindValue("2", $_SESSION["UserName"]->username);
-            $db->stmt->bindValue("3", $review);
-            $db->stmt->bindValue("4", $rank);
+    if(Token::check($_POST['token']))
+    {
+        $review = $_POST['review'];
+        $rank = $_POST['rank'];
+        if(empty($review))
+            array_push($errors,'נא רשום ביקורת');
+        else{
+                $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info,rank) VALUES (?,?,?,?)');
+                $db->stmt->bindValue("1", $_GET["MovieID"]);
+                $db->stmt->bindValue("2", $_SESSION["UserName"]->username);
+                $db->stmt->bindValue("3", $review);
+                $db->stmt->bindValue("4", $rank);
 
-            if($db->stmt->execute()) {
-                $massage_received = true;
+                if($db->stmt->execute()) {
+                    $massage_received = true;
+                }
             }
-        }
+    }
 }
 ?>
 
@@ -87,6 +90,7 @@ if(isset($_POST['review']) && isset($_POST['rank']))
                                 <tr>
                                     <td colspan="2">
                                         <input type="submit" class="nicebutton" id="addreview" onclick="addreview(this.form)" value="הוספת ביקורת" name="addcomment"/>
+                                        <input type="hidden" id="token"  value="<?php echo Token::generate(); ?>" name="token"/>
                                     </td>
                                 </tr>
                         </form>
