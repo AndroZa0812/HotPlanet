@@ -26,12 +26,28 @@ function voteOkay(data) {
     const voteCount = data.voteCount;
     const reviewID  = data.reviewID;
 
-    if(data.voteType == 1) {
-        $("span#upvotenum-" + reviewID).html('' + voteCount);
-    } else {
-        $("span#downvotenum-" + reviewID).html('' + voteCount);
-    }
+    if(data.loggedIn == true) {
 
+        if (data.voteType == 1) {
+            $("span#upvotenum-" + reviewID).html('' + voteCount);
+        } else {
+            $("span#downvotenum-" + reviewID).html('' + voteCount);
+        }
+
+        if (data.voteType2 != -2) {
+
+            const voteCount2 = data.voteCount2;
+
+            if (data.voteType2 == 1) {
+                $("span#upvotenum-" + reviewID).html('' + voteCount2);
+            } else {
+                $("span#downvotenum-" + reviewID).html('' + voteCount2);
+            }
+        }
+
+    }else{
+        showpopup();
+    }
 }
 
 function checkLogin(form)
@@ -98,7 +114,33 @@ function checkContact(form)
     }
 }
 
-$("#addreview").click(function () {
-    var data = $("#addreview :input").serializeArray();
-    $.post()
-})
+//$("#addreview").click(function () {
+//    var data = $("#addreview :input").serializeArray();
+//    $.post()
+//})
+
+
+$(document).ready(function()
+{
+    $("#show_login").click(function(){
+        showpopup();
+    });
+    $("#close_login").click(function(){
+        hidepopup();
+    });
+});
+
+function showpopup()
+{
+    $("#loginform").fadeIn();
+    $("#loginform").css({"visibility":"visible","display":"block"});
+    this.withHeaderText = function($string){
+        $("#loginform").html(+$string);
+    }
+}
+
+function hidepopup()
+{
+    $("#loginform").fadeOut();
+    $("#loginform").css({"visibility":"hidden","display":"none"});
+}

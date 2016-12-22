@@ -20,11 +20,11 @@
                     <div class="post-description">
                         <p><?= $reviews[$i]['info'] ?></p>
                         <div class="stats" align="left">
-                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, 1)" class="btn btn-secondary">
+                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, 1)" class="btn btn-secondary likedButton">
                                <span class="glyphicon glyphicon-thumbs-up"></span>
                                 <span id="upvotenum-<?php echo $reviews[$i]['ID']?>"><?= $reviews[$i]['upvotes'] ?></span>
                             </button>
-                            <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, -1)" class="btn btn-secondary">
+                            <button type="button" id="downvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, -1)" class="btn btn-secondary dislikeButton">
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 <span id="downvotenum-<?php echo $reviews[$i]['ID']?>"><?= $reviews[$i]['downvotes'] ?></span>
                             </button>

@@ -35,6 +35,32 @@ if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
             }
     }
 }
+/********************************************************/
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['uid']) && isset($_POST['upass'])) {
+        $email = $_POST['uid'];
+        $password = $_POST['upass'];
+        if (empty($email) || empty($password)) {
+            echo 'נא מלאו את הפרטים.';
+        } else {
+            $db->stmt = $db->con()->prepare('SELECT password FROM `users` WHERE email = ?  LIMIT 1');
+            $db->stmt->bindValue(1, $email);
+            $db->stmt->execute();
+            $dbpass = $db->stmt->fetch(PDO::FETCH_OBJ);
+            if (password_verify($password, $dbpass->password)) {
+                $db->stmt = $db->con()->prepare('SELECT username,email,firstname,lastname,admin FROM `users` WHERE email = ?');
+                $db->stmt->bindValue(1, $email);
+                $db->stmt->execute();
+                $user = $db->stmt->fetch(PDO::FETCH_OBJ);
+                $_SESSION["UserName"] = $user;
+                $_SESSION["LOGIN"] = true;
+                header('Location: index.php');
+            } else {
+                echo 'האימייל או סיסמא לא קיימים במערכת';
+            }
+        }
+    }
+}
 ?>
 
 <!doctype html>
@@ -45,7 +71,7 @@ if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
 
 <body>
 <?php include 'templates/menu.php';  ?>
-    <div class="wrap">
+<div class="wrap">
         <main>
             <table class="table" id="reviews">
                 <?php if($hasReviews) { ?>
@@ -67,9 +93,10 @@ if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
                             echo "<tr><td>ביקורת נשלחה בהצלחה.</td></tr>";
                         }
                         ?>
-                        <form method="post">
-                            <table align="center">
-                                <h1  class="title">הוספת ביקורת</h1>
+                        <h1  class="title">הוספת ביקורת</h1>
+                        <?php if($_SESSION['LOGIN']){?>
+                        <table align="center">
+                            <form method="post">
                                 <tr>
                                     <td>ביקורת:</td>
                                     <td><textarea name="review" id="review" rows="4" cols="40" placeholder="כתוב ביקורת"></textarea></td>
@@ -93,7 +120,25 @@ if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
                                         <input type="hidden" id="token"  value="<?php echo Token::generate(); ?>" name="token"/>
                                     </td>
                                 </tr>
-                        </form>
+                            </form>
+                        </table>
+                        <?php }else{
+                            echo ("
+                               <p>שתף איתנו את הביקורת שלך כעת:</p>
+                               <input type='button' id='show_login' class='btn btn-secondary' value='להתחברות'>
+                                <div id = 'loginform'>
+                                    <button type = 'button' id = 'close_login'><span class='glyphicon glyphicon-remove'></span></button>
+                                    <div align='center'>
+                                    <form method = 'post'>
+                                        <p>התחבר כדי לגשת לכל הפיצ'רים של האתר.</p>
+                                        <input type = 'text' id = 'login' placeholder = 'דואר אלקטרוני' name = 'uid' />
+                                        <input type = 'password' id = 'pass' name = 'upass' placeholder = 'סיסמא' />
+                                        <input type = 'submit' id = 'dologin' onclick='checkLogin(this.form)' value = 'התחבר'/>
+                                    </form>
+                                    <div>
+                                    <p><a href='register.php'>עדיין לא נרשמת ? הרשם כעת !</a></p>
+                                </div>");
+                        }?>
                     </div>
                 </tbody>
             </table>

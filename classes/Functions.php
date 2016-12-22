@@ -1,6 +1,5 @@
 <?php
 
-
 class Functions
 {
     public static function test() {
