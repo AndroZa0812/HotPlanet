@@ -28,8 +28,6 @@
                                 <span class="glyphicon glyphicon-thumbs-down"></span>
                                 <span id="downvotenum-<?php echo $reviews[$i]['ID']?>"><?= $reviews[$i]['downvotes'] ?></span>
                             </button>
-
-                            </a>
                         </div>
                     </div>
                 </div>

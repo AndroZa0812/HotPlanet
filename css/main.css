@@ -296,3 +296,10 @@ main {
     background-color:grey;
     font-size:20px;
 }
+.info-sub {
+    font-size: 14px;
+    color: black;
+    width: 50%;
+    background-color: rgb(247, 236, 138);
+}
+
