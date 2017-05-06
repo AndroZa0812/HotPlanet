@@ -302,4 +302,6 @@ main {
     width: 50%;
     background-color: rgb(247, 236, 138);
 }
-
+.calendar-table tr td{
+    width : 200%;
+}
