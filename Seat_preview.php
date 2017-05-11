@@ -11,7 +11,7 @@
     <body>
         <?php include 'templates/menu.php';  ?>
         <main>
-            <div class="demo">
+            <div class="movieSelect">
                 <div id="seat-map">
                     <div class="front">SCREEN</div>
                 </div>

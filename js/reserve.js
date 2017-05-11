@@ -1,13 +1,12 @@
-/**
- * Created by user on 03/05/2017.
- */
+
 var price = 39; //price
+var sc = undefined;
 $(document).ready(function() {
     var $cart = $('#selected-seats'), //Sitting Area
         $counter = $('#counter'), //Votes
         $total = $('#total'); //Total money
 
-    var sc = $('#seat-map').seatCharts({
+    sc = $('#seat-map').seatCharts({
         map: [  //Seating chart
             'aaaaaaaaaa_',
             'aaaaaaaaaa_',
@@ -61,10 +60,45 @@ $(document).ready(function() {
             }
         }
     });
-    //sold seat
-    sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
 
+    $("#movieDates").on('change', function () {
+        var selected = $("option:selected", this);
+        var sessionID = selected.attr('data-id');
+        loadSoldSeats(sessionID);
+
+        changeInfo(selected);
+    });
+
+    changeInfo($("#movieDates").find('option:selected'));
+    loadSoldSeats($("#movieDates").find('option:selected').attr('data-id'));
 });
+function loadSoldSeats(sessionID) {
+    sc.find('unavailable').status('available');
+    sc.find('selected').status('available');
+    $('#selected-seats').html('');
+    //sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
+    $.ajax({
+        url: '../core/load-seats.php',
+        type: 'POST',
+        data: { sessionID: sessionID },
+        dataType: 'json',
+        success: function (response) {
+            sc.get(response).status('unavailable');
+        }
+    });
+}
+
+function changeInfo(selected) {
+    var selectedSession = selected.attr('value');
+    var MovieName = "";
+    selectedSession = selectedSession.match(/\S+/g) || [];
+    document.getElementById("movieTimeTag").innerHTML = selectedSession[0] + " " + selectedSession[1];
+    for(var i = 2 ; i < selectedSession.length ; i++){
+        MovieName = MovieName.concat(" " + selectedSession[i]);
+    }
+    document.getElementById("movieNameTag").innerHTML = MovieName;
+}
+
 //sum total money
 function recalculateTotal(sc) {
     var total = 0;
@@ -73,4 +107,8 @@ function recalculateTotal(sc) {
     });
 
     return total;
+}
+
+function processPayment() {
+    var selected = sc.find('selected').seatIds;
 }

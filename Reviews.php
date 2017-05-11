@@ -4,7 +4,7 @@ $hasReviews = false;
 $reviews = null;
 $massage_received = false;
 $errors = [];
-if(isset($_GET['MovieID'])) {
+if(!empty($_GET['MovieID'])) {
     $db->stmt = $db->con()->prepare('SELECT * FROM `reviews` WHERE movie=?');
     $db->stmt->bindValue(1, $_GET['MovieID']);
     $db->stmt->execute();
@@ -12,6 +12,9 @@ if(isset($_GET['MovieID'])) {
         $hasReviews = true;
         $reviews = $db->stmt->fetchAll();
     }
+} else {
+    header("Location: ../newmovies.php");
+    die();
 }
 
 if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))

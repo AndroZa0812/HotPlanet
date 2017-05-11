@@ -145,3 +145,25 @@ function hidepopup()
     $("#loginform").css({"visibility":"hidden","display":"none"});
 }
 
+function send(id , typeOfVote , numOfVotes) {
+    $.ajax({
+        type: 'post',
+        url: '../templates/vote.php',
+        dataType: 'JSON',
+        data: { MassageID: id, typeOfVote: typeOfVote, test: numOfVotes },
+        success: voteOkay
+    });
+}
+
+function insertSessionName($event){
+    // var selectedSession = name.value;
+    // var MovieName = "";
+    // selectedSession = selectedSession.match(/\S+/g) || [];
+    // document.getElementById("movieTimeTag").innerHTML = selectedSession[0] + " " + selectedSession[1];
+    // for(var i = 2 ; i < selectedSession.length ; i++){
+    //     MovieName = MovieName.concat(" " + selectedSession[i]);
+    // }
+    // document.getElementById("movieNameTag").innerHTML = MovieName;
+    // return selectedSession;
+    console.log($event.target.value);
+}

@@ -305,3 +305,8 @@ main {
 .calendar-table tr td{
     width : 200%;
 }
+
+.movieSelect {
+    width : 100%;
+    height: auto;
+}
