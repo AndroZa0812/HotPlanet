@@ -57,10 +57,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'templates/header.php';  ?>
     <link rel="stylesheet" href="css/reserve.css">
     <script src="js/jquery.seat-charts.min.js"></script>
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.he.min.js" ></script>-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css">-->
-
 </head>
 
 <body>
@@ -80,8 +76,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <input type="button"  value="קנה עכשיו">
-                <input type="button" value="הוסף לעגלת קניות">
             <?php else: ?>
                 
             <?php endif; ?>
@@ -97,37 +91,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <ul id="selected-seats"></ul>
                     <p>Tickets: <span id="counter">0</span></p>
                     <p>Total: <b>&#8362;<span id="total">0</span></b></p>
-
-                    <button onclick="processPayment()" class="checkout-button">BUY</button>
+    `               <form method="post" id="seatsForm" action="buyMovie.php">
+                        <input type="hidden" name="seatsOrder" id="seatsOrder" value="" />
+                        <input type = "button" onclick="processPayment()" class="checkout-button" value="buy" />
+                    </form>
                     <div id="legend"></div>
                 </div>
                 <div style="clear:both"></div>
             </div>
-<!--            <table style="width: 21%" class = "calendar-table">-->
-<!--                <tr>-->
-<!--                    <td>-->
-<!--                        <div id = "datePicker" >-->
-<!--                            <div style = "background : white"></div>-->
-<!--                            <input type="hidden" name="dt_due" id="dt_due">-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                        <div style = "margin-right: 30%;">-->
-<!--                           <div id = "availableSession">-->
-<!---->
-<!--                           </div>-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </table>-->
-
-<!--            <div id = "moviesInDate"></div>-->
-<!--            <p><button onclick=" location.href='Seat_preview.php' ">לבחירת מקומות בקולנוע</button></p>-->
-<!--            <div class="info-sub">-->
-<!--                <p>-->
-<!--                    <span>*ע"י לחיצה על המשך תועבר לעמוד מותאם, לאחר מכן תוכל להמשיך ולסיים את הרכישה.</span>-->
-<!--                </p>-->
-        <!--</div>-->
 <?php }else{
     echo ("
             <p>לפני שתוכל לגשת לקנית כרטיס אנא התחבר למשתמש שלך באתר.</p>

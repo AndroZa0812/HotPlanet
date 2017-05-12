@@ -111,4 +111,9 @@ function recalculateTotal(sc) {
 
 function processPayment() {
     var selected = sc.find('selected').seatIds;
+    var SessionID = $("#movieDates").find('option:selected').attr('data-id');
+    var value = document.getElementById("seatsOrder").value = selected;
+    document.getElementById("seatsOrder").value = value.concat(SessionID);
+    document.getElementById("seatsForm").submit();
+   // document.location.href="../BuyMovie";
 }

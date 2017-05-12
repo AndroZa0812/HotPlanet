@@ -23,5 +23,9 @@ function LoadClasses($className)
 
 $db = new Database();
 
+function array_delete($idx,$array) {
+    unset($array[$idx]);
+    return (is_array($array)) ? array_values($array) : null;
+}
 
 

@@ -310,3 +310,24 @@ main {
     width : 100%;
     height: auto;
 }
+
+.seatsTable {
+    width: 50%;
+    !important;
+}
+.seatsTable td {
+}
+.seatsTable th{
+    width: 50%;
+    text-align: right;
+    !important;
+}
+
+.dropDown{
+    vertical-align: bottom;
+    !important;
+}
+.dropDown option{
+    vertical-align: bottom;
+    !important;
+}
