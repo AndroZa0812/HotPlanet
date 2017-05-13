@@ -1,4 +1,13 @@
-<?php include 'core/init.php';  ?>
+<?php include 'core/init.php';
+if(!isset($_SESSION['LOGIN'])) {
+    header("Location: index.php");
+    die();
+}
+if($_SESSION['UserName']->admin != 1) {
+    header("Location: index.php");
+    die();
+}
+?>
 
     <!doctype html>
     <html lang="he" dir="rtl">
