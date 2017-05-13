@@ -23,6 +23,8 @@ if($_SESSION['LOGIN']) {
 <div class="wrap">
     <main>
         <h1 class="title">ההזמנות שלי</h1>
+
+        <?php if($db->stmt->rowCount()) {?>
         <hr>
         <table  class="table table-bordered table-striped seatsTable">
             <thead>
@@ -35,6 +37,10 @@ if($_SESSION['LOGIN']) {
                 <?php include "templates/myOrdersTable.php" ;?>
             </tbody>
         </table>
+        <?php } else {?>
+        <p class="title">אין לך הזמנות</p>
+        <input type="button" class="nicebutton" value="קח אותי לקניית סרט" onclick="window.location.href = 'newmovies.php' ;"/>
+        <?php }?>
     </main>
 </div>
 
