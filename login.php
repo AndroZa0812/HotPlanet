@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $dbpass=$db->stmt->fetch(PDO::FETCH_OBJ);
         if(!empty($dbpass)) {
             if (password_verify($password, $dbpass->password)) {
-                $db->stmt = $db->con()->prepare('SELECT username,email,firstname,lastname,admin FROM `users` WHERE email = ?');
+                $db->stmt = $db->con()->prepare('SELECT id,username,email,firstname,lastname,admin FROM `users` WHERE email = ?');
                 $db->stmt->bindValue(1, $email);
                 $db->stmt->execute();
                 $user = $db->stmt->fetch(PDO::FETCH_OBJ);

@@ -3,8 +3,11 @@
 $hasReviews = false;
 $reviews = null;
 $massage_received = false;
+$movieID = null;
 $errors = [];
+$canReview = false;
 if(!empty($_GET['MovieID'])) {
+    $movieID = $_GET['MovieID'];
     $db->stmt = $db->con()->prepare('SELECT * FROM `reviews` WHERE movie=?');
     $db->stmt->bindValue(1, $_GET['MovieID']);
     $db->stmt->execute();
@@ -40,7 +43,7 @@ if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
 }
 /********************************************************/
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(isset($_POST['uid']) && isset($_POST['upass'])) {
+    if (isset($_POST['uid']) && isset($_POST['upass'])) {
         $email = $_POST['uid'];
         $password = $_POST['upass'];
         if (empty($email) || empty($password)) {
@@ -51,13 +54,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $db->stmt->execute();
             $dbpass = $db->stmt->fetch(PDO::FETCH_OBJ);
             if (password_verify($password, $dbpass->password)) {
-                $db->stmt = $db->con()->prepare('SELECT username,email,firstname,lastname,admin FROM `users` WHERE email = ?');
+                $db->stmt = $db->con()->prepare('SELECT id,username,email,firstname,lastname,admin FROM `users` WHERE email = ?');
                 $db->stmt->bindValue(1, $email);
                 $db->stmt->execute();
                 $user = $db->stmt->fetch(PDO::FETCH_OBJ);
                 $_SESSION["UserName"] = $user;
                 $_SESSION["LOGIN"] = true;
-                header('Location: index.php');
+                header("Location: Reviews.php?MovieID=$movieID");
             } else {
                 echo 'האימייל או סיסמא לא קיימים במערכת';
             }
@@ -97,35 +100,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         }
                         ?>
                         <h1  class="title">הוספת ביקורת</h1>
-                        <?php if($_SESSION['LOGIN']){?>
-                        <table align="center">
-                            <form method="post">
-                                <tr>
-                                    <td>ביקורת:</td>
-                                    <td><textarea name="review" id="review" rows="4" cols="40" placeholder="כתוב ביקורת"></textarea></td>
-                                </tr>
-                                <tr>
-                                    <td>דירוג:</td>
-                                    <td>
-                                        <select name="rank" id="rank">
-                                        <option value="5" selected="selected"> מעולה </option>
-                                        <option value="4" > טוב </option>
-                                        <option value="3"> בסדר </option>
-                                        <option value="2"> ככה ככה </option>
-                                        <option value="1"> לא ממליץ </option>
-                                        </select>
-                                    </td>
-                                </tr>
+                        <?php if($_SESSION['LOGIN']) {
+                            $db->stmt = $db->con()->prepare('SELECT * FROM `movie_session` M WHERE  M.movieID = ? and M.ID in (SELECT sessionID FROM `orders` O WHERE O.userID = ? and O.sessionID = M.ID)');
+                            $db->stmt->bindValue(1, $movieID);
+                            $db->stmt->bindValue(2, $_SESSION['UserName']->id);
+                            $db->stmt->execute();
+                            if ($db->stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                                <table align="center">
+                                    <form method="post">
+                                        <tr>
+                                            <td>ביקורת:</td>
+                                            <td><textarea name="review" id="review" rows="4" cols="40"
+                                                          placeholder="כתוב ביקורת"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="submit" class="nicebutton" id="addreview"
+                                                       onclick="addreview(this.form)" value="הוספת ביקורת"
+                                                       name="addcomment"/>
+                                                <input type="hidden" id="token" value="<?php echo Token::generate(); ?>"
+                                                       name="token"/>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                </table>
+                                <?php
+                            } else { ?>
 
-                                <tr>
-                                    <td colspan="2">
-                                        <input type="submit" class="nicebutton" id="addreview" onclick="addreview(this.form)" value="הוספת ביקורת" name="addcomment"/>
-                                        <input type="hidden" id="token"  value="<?php echo Token::generate(); ?>" name="token"/>
-                                    </td>
-                                </tr>
-                            </form>
-                        </table>
-                        <?php }else{
+                               <p>על מנת שתוכל לכתוב ביקורת עליך להיות באחד המועדים של הסרט הזה.</p>
+                               <p>קנה כרטיס למועד הקרוב היותר :</p>
+                               <input type="button" class="nicebutton" value="קנה עכשיו !!!" onclick=" window.location.href = 'selectSeats.php?MovieID=' + <?php echo $movieID?> ; "/>
+                                <?php
+                            }
+                        } else {
                             echo ("
                                <p>שתף איתנו את הביקורת שלך כעת:</p>
                                <input type='button' id='show_login' class='btn btn-secondary' value='להתחברות'>

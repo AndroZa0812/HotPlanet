@@ -8,15 +8,16 @@
             <ul>
                 <li><a href="index.php">דף הבית</a></li>
 
-                <?php if(!$_SESSION['LOGIN']) { ?>
-                    <li><a href='register.php'>הרשמה</a></li>
+                <?php if($_SESSION['LOGIN']) { ?>
+                    <li><a href='logout.php'>התנתק</a></li>
+                    <li><a href="myOrders.php">ההזמנות שלי</a>
+                    <?php if ($_SESSION["UserName"]->admin) { ?>
+                    <li><a href="admin.php">נהל משתמשים</a></li>
+                    <?php }?>
+                <?php } else { ?>
                     <li><a href='login.php'>התחברות</a></li>
-                <?php } else {
-                    if ($_SESSION["UserName"]->admin) {?>
-                        <li><a href="admin.php">נהל משתמשים</a></li>
-                    <?php } ?>
-                        <li><a href='logout.php'>התנתק</a></li>
-                <?php } ?>
+                    <li><a href='register.php'>הרשמה</a></li>
+                <?php }?>
                 <li><a href="newmovies.php">סרטים חדשים</a></li>
                 <li><a href="contact.php">צור קשר</a></li>
             </ul>

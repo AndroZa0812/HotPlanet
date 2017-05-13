@@ -181,3 +181,7 @@ $.fn.extend({
         return this;
     }
 })
+
+function RedirectToBuyMovie(movieID) {
+    window.location.href = "../buyMovie.php?MovieID=" + movieID.toString();
+}
