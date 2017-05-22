@@ -14,4 +14,4 @@
 <link rel="stylesheet" type="text/css" href="../css/main.css">
 <link rel="icon" type="image/png" href="../img/favicon.png">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-<script src="../js/app.js" type="text/javascript"></script>
+<script src="../js/app.js" t                    ype="text/javascript"></script>

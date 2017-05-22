@@ -7,11 +7,11 @@
         <td><?= $movies[$i]['ageR'] ?></td>
         <td id="imagesize"><p><img src="img/<?= $movies[$i]['img']?>"/></p> </td>
         <td>
-            <a href="../selectSeats.php?MovieID=<?php echo $movies[$i]['ID'] ?>">Purchase</a>
+            <a href="../selectSeats.php?MovieID=<?php echo $movies[$i]['ID'] ?>">לקניית כרטיסים</a>
 <!--            <input type="button" onclick="window.location.href='../buymovie.php'" class="btn btn-sm btn-danger" value="purchase" name = "movieID"/> -->
         </td>
         <td>
-            <a href="../Reviews.php?MovieID=<?php echo $movies[$i]['ID'] ?>">Reviews</a>
+            <a href="../Reviews.php?MovieID=<?php echo $movies[$i]['ID'] ?>">ביקורות</a>
         </td>
     </tr>
 <?php endfor; ?>

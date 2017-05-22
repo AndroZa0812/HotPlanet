@@ -1,6 +1,6 @@
 <?php include 'core/init.php';
 if($_SESSION['LOGIN']) {
-    $db->stmt = $db->con()->prepare('SELECT O.orderID,O.seats,M.movie_name FROM `orders` O, `movie_session` M WHERE O.userID = ? and M.ID = O.sessionID ');
+    $db->stmt = $db->con()->prepare('SELECT O.orderID,O.seats,M.movie_name,M.time FROM `orders` O, `movie_session` M WHERE O.userID = ? and M.ID = O.sessionID ');
     $db->stmt->bindValue(1, $_SESSION['UserName']->id);
     $db->stmt->execute();
     $seatsArray = array();
@@ -30,8 +30,9 @@ if($_SESSION['LOGIN']) {
             <thead>
             <th></th>
             <th>מספר הזמנה</th>
-            <th>שם הסרט (ההקרה)</th>
-            <th>מספר שורה וטור</th>
+            <th >שם הסרט (ההקרה)</th>
+            <th >זמן ההקרנה</th>
+            <th >מספר שורה וטור</th>
             </thead>
             <tbody>
                 <?php include "templates/myOrdersTable.php" ;?>

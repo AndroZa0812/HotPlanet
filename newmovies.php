@@ -17,7 +17,7 @@ $movies =  $db->stmt->fetchAll();?>
     <main>
 
 
-        <table class="table" id="movies">
+        <table class="table table-bordered table-striped" id="movies">
             <thead class="thead-inverse">
             <tr>
                 <th>#</th>
@@ -25,6 +25,8 @@ $movies =  $db->stmt->fetchAll();?>
                 <th>שנה</th>
                 <th>תקציר</th>
                 <th>גיל מורשה</th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
             </thead>

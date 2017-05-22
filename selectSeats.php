@@ -85,15 +85,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="front">SCREEN</div>
                 </div>
                 <div class="booking-details">
-                    <p>Movie: <span id="movieNameTag"> </span></p>
-                    <p>Time: <span id="movieTimeTag"></span></p>
-                    <p>Seat: </p>
+                    <p>שם הסרט :  <span id="movieNameTag"> </span></p>
+                    <p>שעת הקרנה :<span id="movieTimeTag"></span></p>
+                    <p>כיסאות :</p>
                     <ul id="selected-seats"></ul>
-                    <p>Tickets: <span id="counter">0</span></p>
-                    <p>Total: <b>&#8362;<span id="total">0</span></b></p>
+                    <p>מספר הכיסאות: <span id="counter">0</span></p>
+                    <p>סה"כ לתשלום: <b>&#8362;<span id="total">0</span></b></p>
     `               <form method="post" id="seatsForm" action="buyMovie.php">
                         <input type="hidden" name="seatsOrder" id="seatsOrder" value="" />
-                        <input type = "button" onclick="processPayment()" class="checkout-button" value="buy" />
+                        <input type = "button" onclick="processPayment()" class="checkout-button" value="קנייה" />
                     </form>
                     <div id="legend"></div>
                 </div>

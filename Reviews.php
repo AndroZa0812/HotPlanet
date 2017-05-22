@@ -20,20 +20,18 @@ if(!empty($_GET['MovieID'])) {
     die();
 }
 
-if(isset($_POST['review']) && isset($_POST['rank']) && isset($_POST['token']))
+if(isset($_POST['review']) && isset($_POST['token']))
 {
     if(Token::check($_POST['token']))
     {
         $review = $_POST['review'];
-        $rank = $_POST['rank'];
         if(empty($review))
             array_push($errors,'נא רשום ביקורת');
         else{
-                $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info,rank) VALUES (?,?,?,?)');
+                $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info) VALUES (?,?,?)');
                 $db->stmt->bindValue("1", $_GET["MovieID"]);
                 $db->stmt->bindValue("2", $_SESSION["UserName"]->username);
                 $db->stmt->bindValue("3", $review);
-                $db->stmt->bindValue("4", $rank);
 
                 if($db->stmt->execute()) {
                     $massage_received = true;

@@ -2,10 +2,11 @@
 for ($i = 0;  $i  < count($ordersArray); $i++) {
     ?>
     <tr>
-        <td><?php echo $i + 1?></td>
-        <td><?php echo $ordersArray[$i]->orderID?></td>
-        <td><?php echo $ordersArray[$i]->movie_name?></td>
-        <td>
+        <td width="10%"><?php echo $i + 1?></td>
+        <td width="40%"><?php echo $ordersArray[$i]->orderID?></td>
+        <td width="10%"><?php echo $ordersArray[$i]->movie_name?></td>
+        <td width="30%"><?php echo $ordersArray[$i]->time?></td>
+        <td width="10%">
             <table  class="table table-bordered table-striped seatsTable">
                 <thead>
                 <th>שורה</th>
