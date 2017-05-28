@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['seatsOrder'])){
         } else {
             echo "There was an error in the purchase, you will not be charged for the order, please try later.";
         }
-        $_SESSION['numberOfSeats'] = count($seatsArray)-1;
+        $_SESSION['numberOfSeats'] = count($seatsArray);
         $_SESSION['orderID'] = $orderID;
         header("Location: ../printPurchase.php");
     }

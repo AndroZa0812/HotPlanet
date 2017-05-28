@@ -9,5 +9,4 @@ $db->stmt->execute();
 $db->stmt = $db->con()->prepare('SELECT * FROM `users`');
 $db->stmt->execute();
 $users =  $db->stmt->fetchAll();
-
-include "templates/user-table.php";
+echo include "templates/user-table.php";

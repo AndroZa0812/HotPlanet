@@ -16,7 +16,7 @@ for ($i = 0;  $i  < count($ordersArray); $i++) {
                 <?php
                 $seatsArray = array();
                 $seatsArray = explode(",",$ordersArray[$i]->seats);
-                for($j = 0 ; $j < count($seatsArray[$j]); $j++){
+                for($j = 0 ; $j < count($seatsArray); $j++){
                     $currentSeat = explode("_", $seatsArray[$j]);
                     ?>
                     <tr>

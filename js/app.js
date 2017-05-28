@@ -1,15 +1,15 @@
 function deleteUser(id) {
+    //alert('test');
     $.ajax({
         type: 'post',
         url: '../deluser.php',
         data: { UserID: id },
-        success: delOkay
+        success: delOkay,
     });
 }
 
 function delOkay(data) {
-    // it means: go to the table with the ID of users and then go to the tbody section which is the table body
-    $("table#users tbody").html(data);
+    $("table tbody#users").html('' + data);
 }
 
 function vote(id , typeOfVote , numOfVotes) {
@@ -114,12 +114,6 @@ function checkContact(form)
     }
 }
 
-//$("#addreview").click(function () {
-//    var data = $("#addreview :input").serializeArray();
-//    $.post()
-//})
-
-
 $(document).ready(function()
 {
     $("#show_login").click(function(){
@@ -184,4 +178,23 @@ $.fn.extend({
 
 function RedirectToBuyMovie(movieID) {
     window.location.href = "../buyMovie.php?MovieID=" + movieID.toString();
+}
+
+function addReview(massage) {
+    var token = document.getElementById('token').value;
+    var movieID = document.getElementById('movieID').value;
+    $.ajax({
+        type: 'post',
+        url: '../templates/AddReview.php',
+        data:{  massage: massage,
+            token : token,
+            MovieID : movieID,
+        },
+        success: reviewSuccess
+    });
+}
+
+function reviewSuccess(data) {
+    $("div#reviews").html('' + data);
+    $("textarea#reviewArea").html('');
 }

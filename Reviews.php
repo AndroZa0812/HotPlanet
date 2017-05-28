@@ -20,25 +20,6 @@ if(!empty($_GET['MovieID'])) {
     die();
 }
 
-if(isset($_POST['review']) && isset($_POST['token']))
-{
-    if(Token::check($_POST['token']))
-    {
-        $review = $_POST['review'];
-        if(empty($review))
-            array_push($errors,'נא רשום ביקורת');
-        else{
-                $db->stmt = $db->con()->prepare('INSERT INTO `reviews` ( movie,username,info) VALUES (?,?,?)');
-                $db->stmt->bindValue("1", $_GET["MovieID"]);
-                $db->stmt->bindValue("2", $_SESSION["UserName"]->username);
-                $db->stmt->bindValue("3", $review);
-
-                if($db->stmt->execute()) {
-                    $massage_received = true;
-                }
-            }
-    }
-}
 /********************************************************/
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['uid']) && isset($_POST['upass'])) {
@@ -65,6 +46,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+/*********************************************************************/
+
 ?>
 
 <!doctype html>
@@ -74,64 +57,63 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
+<input type="hidden" value="<?php echo $_GET['MovieID']?>" id="movieID"/>
 <?php include 'templates/menu.php';  ?>
 <div class="wrap">
         <main>
-            <table class="table" id="reviews">
-                <?php if($hasReviews) { ?>
-                <tbody>
-                    <?php include "templates/review-table.php"; ?>
-                <?php } else { ?>
-                    <h2>לסרט לא קיימות ביקורות.</h2>
-                <?php } ?>
-                <hr />
-                    <div>
+
+            <div class="reviews" id="reviews">
+                    <?php if($hasReviews) {include "templates/review-table.php"; ?>
+            <?php } else { ?>
+                <h2>לסרט לא קיימות ביקורות.</h2>
+            <?php } ?>
+            </div>
+            <hr />
+            <div>
+                <?php
+                if(!empty($errors)) {
+
+                    foreach ($errors as $error)
+                    {
+                        echo "<tr><td colspan='2'>$error</td></tr>";
+                    }
+                } else if($massage_received) {
+                    echo "<tr><td>ביקורת נשלחה בהצלחה.</td></tr>";
+                }
+                ?>
+                <h1  class="title">הוספת ביקורת</h1>
+                <?php if($_SESSION['LOGIN']) {
+                    $db->stmt = $db->con()->prepare('SELECT * FROM `movie_session` M WHERE  M.movieID = ? and M.ID in (SELECT sessionID FROM `orders` O WHERE O.userID = ? and O.sessionID = M.ID)');
+                    $db->stmt->bindValue(1, $movieID);
+                    $db->stmt->bindValue(2, $_SESSION['UserName']->id);
+                    $db->stmt->execute();
+                    if ($db->stmt->fetch(PDO::FETCH_OBJ)) { ?>
+                        <table align="center">
+                            <tr>
+                                <td>ביקורת:</td>
+                                <td><textarea name="review" id="reviewArea" rows="4" cols="40"
+                                              placeholder="כתוב ביקורת"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="button" class="nicebutton" id="addreview"
+                                           onclick="addReview(document.getElementById('reviewArea').value)" value="הוספת ביקורת"
+                                           name="addcomment"/>
+                                    <input type="hidden" id="token" value="<?php echo Token::generate(); ?>"
+                                           name="token"/>
+                                </td>
+                            </tr>
+                        </table>
                         <?php
-                        if(!empty($errors)) {
+                    } else { ?>
 
-                            foreach ($errors as $error)
-                            {
-                                echo "<tr><td colspan='2'>$error</td></tr>";
-                            }
-                        } else if($massage_received) {
-                            echo "<tr><td>ביקורת נשלחה בהצלחה.</td></tr>";
-                        }
-                        ?>
-                        <h1  class="title">הוספת ביקורת</h1>
-                        <?php if($_SESSION['LOGIN']) {
-                            $db->stmt = $db->con()->prepare('SELECT * FROM `movie_session` M WHERE  M.movieID = ? and M.ID in (SELECT sessionID FROM `orders` O WHERE O.userID = ? and O.sessionID = M.ID)');
-                            $db->stmt->bindValue(1, $movieID);
-                            $db->stmt->bindValue(2, $_SESSION['UserName']->id);
-                            $db->stmt->execute();
-                            if ($db->stmt->fetch(PDO::FETCH_OBJ)) { ?>
-                                <table align="center">
-                                    <form method="post">
-                                        <tr>
-                                            <td>ביקורת:</td>
-                                            <td><textarea name="review" id="review" rows="4" cols="40"
-                                                          placeholder="כתוב ביקורת"></textarea></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <input type="submit" class="nicebutton" id="addreview"
-                                                       onclick="addreview(this.form)" value="הוספת ביקורת"
-                                                       name="addcomment"/>
-                                                <input type="hidden" id="token" value="<?php echo Token::generate(); ?>"
-                                                       name="token"/>
-                                            </td>
-                                        </tr>
-                                    </form>
-                                </table>
-                                <?php
-                            } else { ?>
-
-                               <p>על מנת שתוכל לכתוב ביקורת עליך להיות באחד המועדים של הסרט הזה.</p>
-                               <p>קנה כרטיס למועד הקרוב היותר :</p>
-                               <input type="button" class="nicebutton" value="קנה עכשיו !!!" onclick=" window.location.href = 'selectSeats.php?MovieID=' + <?php echo $movieID?> ; "/>
-                                <?php
-                            }
-                        } else {
-                            echo ("
+                        <p>על מנת שתוכל לכתוב ביקורת עליך להיות באחד המועדים של הסרט הזה.</p>
+                        <p>קנה כרטיס למועד הקרוב היותר :</p>
+                        <input type="button" class="nicebutton" value="קנה עכשיו !!!" onclick=" window.location.href = 'selectSeats.php?MovieID=' + <?php echo $movieID?> ; "/>
+                        <?php
+                    }
+                } else {
+                    echo ("
                                <p>שתף איתנו את הביקורת שלך כעת:</p>
                                <input type='button' id='show_login' class='btn btn-secondary' value='להתחברות'>
                                 <div id = 'loginform'>
@@ -146,10 +128,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <div>
                                     <p><a href='register.php'>עדיין לא נרשמת ? הרשם כעת !</a></p>
                                 </div>");
-                        }?>
-                    </div>
-                </tbody>
-            </table>
+                }?>
+            </div>
         </main>
     </div>
 </body>
