@@ -23,10 +23,9 @@ function vote(id , typeOfVote) {
 }
 
 function voteOkay(data) {
-    const voteCount = data.voteCount;
-    const reviewID  = data.reviewID;
-
     if(data.loggedIn == true) {
+        const voteCount = data.voteCount;
+        const reviewID  = data.reviewID;
 
         if (data.voteType == 1) {
             $("span#upvotenum-" + reviewID).html('' + voteCount);
@@ -45,7 +44,7 @@ function voteOkay(data) {
             }
         }
 
-    }else{
+    } else {
         showpopup();
     }
 }

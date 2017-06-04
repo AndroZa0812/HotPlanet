@@ -160,6 +160,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $data = [
           'loggedIn' => false
       ];
+        echo json_encode($data);
     }
 }
 
