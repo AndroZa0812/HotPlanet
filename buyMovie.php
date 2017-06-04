@@ -103,7 +103,7 @@ else{
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="רכוש כעט" />
+                        <input type="submit" value="רכוש כעת" />
                     </td>
                 </tr>
             </table>

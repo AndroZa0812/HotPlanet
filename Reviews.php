@@ -1,11 +1,14 @@
 <?php include 'core/init.php';
 
+//variables section
 $hasReviews = false;
 $reviews = null;
 $massage_received = false;
 $movieID = null;
 $errors = [];
 $canReview = false;
+
+//checking if all the variables are presented and getting the reviews for the table
 if(!empty($_GET['MovieID'])) {
     $movieID = $_GET['MovieID'];
     $db->stmt = $db->con()->prepare('SELECT * FROM `reviews` WHERE movie=?');
@@ -21,6 +24,7 @@ if(!empty($_GET['MovieID'])) {
 }
 
 /********************************************************/
+//upon filling the pop up log in screen this section handles the insert to the sql table
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['uid']) && isset($_POST['upass'])) {
         $email = $_POST['uid'];
@@ -61,7 +65,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php include 'templates/menu.php';  ?>
 <div class="wrap">
         <main>
-
             <div class="reviews" id="reviews">
                     <?php if($hasReviews) {include "templates/review-table.php"; ?>
             <?php } else { ?>
@@ -72,39 +75,55 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div>
                 <?php
                 if(!empty($errors)) {
-
+                    //if there are error during the process they will be printed here
                     foreach ($errors as $error)
                     {
-                        echo "<tr><td colspan='2'>$error</td></tr>";
+                        echo "<p>$error</p>";
                     }
                 } else if($massage_received) {
-                    echo "<tr><td>ביקורת נשלחה בהצלחה.</td></tr>";
+                    echo "<p>ביקורת נשלחה בהצלחה.</p>";
                 }
                 ?>
                 <h1  class="title">הוספת ביקורת</h1>
                 <?php if($_SESSION['LOGIN']) {
-                    $db->stmt = $db->con()->prepare('SELECT * FROM `movie_session` M WHERE  M.movieID = ? and M.ID in (SELECT sessionID FROM `orders` O WHERE O.userID = ? and O.sessionID = M.ID)');
+                    $db->stmt = $db->con()->prepare('SELECT * FROM `movie_session` M WHERE 
+                                                      M.movieID = ? and M.ID in 
+                                                                    (SELECT sessionID FROM `orders` O 
+                                                                     WHERE O.userID = ? and 
+                                                                     O.sessionID = M.ID)');
                     $db->stmt->bindValue(1, $movieID);
                     $db->stmt->bindValue(2, $_SESSION['UserName']->id);
                     $db->stmt->execute();
-                    if ($db->stmt->fetch(PDO::FETCH_OBJ)) { ?>
-                        <table align="center">
-                            <tr>
-                                <td>ביקורת:</td>
-                                <td><textarea name="review" id="reviewArea" rows="4" cols="40"
-                                              placeholder="כתוב ביקורת"></textarea></td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="button" class="nicebutton" id="addreview"
-                                           onclick="addReview(document.getElementById('reviewArea').value)" value="הוספת ביקורת"
-                                           name="addcomment"/>
-                                    <input type="hidden" id="token" value="<?php echo Token::generate(); ?>"
-                                           name="token"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <?php
+                    if ($db->stmt->fetch(PDO::FETCH_OBJ)) {
+                        $db->stmt = $db->con()->prepare('SELECT ID FROM `reviews` WHERE movie = ? and username = ?');
+                        $db->stmt->bindValue(1, $movieID);
+                        $db->stmt->bindValue(2, $_SESSION['UserName']->username);
+                        $db->stmt->execute();
+                        $db->stmt->fetch(PDO::FETCH_OBJ);
+                            if($db->stmt->rowCount() >= 1) {
+                        ?>
+                                <p>הינך יכול להוסיף ביקורת אחת לכל סרט שאליו קנית כרטיס</p>
+                                <p>תודה.</p>
+                                <?php } else { ?>
+                                <table align="center">
+                                    <tr>
+                                        <td>ביקורת:</td>
+                                        <td><textarea name="review" id="reviewArea" rows="4" cols="40"
+                                                      placeholder="כתוב ביקורת"></textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="button" class="nicebutton" id="addreview"
+                                                   onclick="addReview(document.getElementById('reviewArea').value)"
+                                                   value="הוספת ביקורת"
+                                                   name="addcomment"/>
+                                            <input type="hidden" id="token" value="<?php echo Token::generate(); ?>"
+                                                   name="token"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <?php
+                            }
                     } else { ?>
 
                         <p>על מנת שתוכל לכתוב ביקורת עליך להיות באחד המועדים של הסרט הזה.</p>

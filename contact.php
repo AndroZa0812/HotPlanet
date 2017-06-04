@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         echo "<tr><td><span style='color:red'>ההודעה נשלחה בהצלחה!</span></td></tr>";
                     } else { ?>
                         <tr>
-                            <td><span style='color:red'><?php echo $errors ?></span></td>
+                            <?php foreach ($errors as $error) {echo "<td><span style='color:red'>$error</span></td>";}?>
                         </tr>
                         <?php
                     }
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" class="nicebutton" onclick="checkContact(this.form)" value="שלח טופס"/>
+                        <input type="submit" class="nicebutton" value="שלח טופס"/>
                     </td>
                 </tr>
             </table>

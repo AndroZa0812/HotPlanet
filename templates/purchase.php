@@ -2,15 +2,24 @@
 include '../core/init.php';
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['seatsOrder'])){
     if(isset($_SESSION['LOGIN'])){
+
+        //getting the userID
         $db->stmt = $db->con()->prepare('SELECT id FROM `users` WHERE email = ?');
         $db->stmt->bindValue(1, $_SESSION['UserName']->email);
         $db->stmt->execute();
         $userID = $db->stmt->fetch(PDO::FETCH_OBJ);
-        //$db->stmt->closeCursor();
+
+        //making the orderID
         $orderID = time() . mt_rand() . $userID->id;
+
+        //preping for insert
         $seatsArray = explode(',', $_SESSION['seatsOrder']);
         $SessionID = $seatsArray[count($seatsArray) - 1];
+
+        //delliting the session id from the array of seats
         $seatsArray = array_delete(count($seatsArray) - 1,$seatsArray);
+
+        //making an string with the seats
         $onlyReservedSeats = implode(",",$seatsArray);
         $db->stmt = $db->con()->prepare('INSERT INTO `orders` (`orderID`, `userID`, `sessionID`, `seats`) VALUES (:orderID, :userID, :sessionID, :seats)');
         $db->stmt->bindValue(":orderID", $orderID);

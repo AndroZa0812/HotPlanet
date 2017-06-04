@@ -28,8 +28,8 @@ $(document).ready(function() {
         legend : { //Definition legend
             node : $('#legend'),
             items : [
-                [ 'a', 'available',   'Option' ],
-                [ 'a', 'unavailable', 'Sold']
+                [ 'a', 'available',   'פנוי' ],
+                [ 'a', 'unavailable', 'תפוס']
             ]
         },
         click: function () { //Click event
@@ -72,9 +72,12 @@ $(document).ready(function() {
     changeInfo($("#movieDates").find('option:selected'));
     loadSoldSeats($("#movieDates").find('option:selected').attr('data-id'));
 });
+
 function loadSoldSeats(sessionID) {
     sc.find('unavailable').status('available');
     sc.find('selected').status('available');
+    $('#counter').text(0);
+    $('#total').text(0);
     $('#selected-seats').html('');
     //sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
     $.ajax({
@@ -111,9 +114,13 @@ function recalculateTotal(sc) {
 
 function processPayment() {
     var selected = sc.find('selected').seatIds;
-    var SessionID = $("#movieDates").find('option:selected').attr('data-id');
-    var value = document.getElementById("seatsOrder").value = selected;
-    document.getElementById("seatsOrder").value = value.concat(SessionID);
-    document.getElementById("seatsForm").submit();
-   // document.location.href="../BuyMovie";
+    if(selected == "") {
+        alert("בבקשה בחר לפחות כיסא אחד.")
+    } else {
+        var SessionID = $("#movieDates").find('option:selected').attr('data-id');
+        var value = document.getElementById("seatsOrder").value = selected;
+        document.getElementById("seatsOrder").value = value.concat(SessionID);
+        document.getElementById("seatsForm").submit();
+        // document.location.href="../BuyMovie";
+    }
 }

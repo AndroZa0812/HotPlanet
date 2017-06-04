@@ -14,12 +14,16 @@
                             </div>
                             <h6 class="text-muted time"><?php echo  getInterval($reviews[$i]['submissionTime']) ?></h6>
                         </div>
+                        <div style="margin-right:490px" >
+                            <span><?= $reviews[$i]["Movie"]?></span>
+                            <button class="btn btn-sm btn-danger" value="Delete Review" onclick="deleteReview(<?php echo $reviews[$i]['ID'] ?>)" >Delete Review</button>
+                        </div>
                     </div>
                     <div class="post-description">
                         <p><?= $reviews[$i]['info'] ?></p>
                         <div class="stats" align="left">
                             <button type="button" id="upvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, 1)" class="btn btn-secondary likedButton">
-                               <span class="glyphicon glyphicon-thumbs-up"></span>
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
                                 <span id="upvotenum-<?php echo $reviews[$i]['ID']?>"><?= $reviews[$i]['upvotes'] ?></span>
                             </button>
                             <button type="button" id="downvote" onclick="vote(<?php echo $reviews[$i]['ID'] ?>, -1)" class="btn btn-secondary dislikeButton">

@@ -1,18 +1,21 @@
 <?php include 'core/init.php';  ?>
 
 <?php
+//init variables
 $hasSessions = false;
 $sessions = NULL;
 $errors = array();
 $dataEntered = false;
 $movieID = $_GET['MovieID'];
 
+//sending the user to another page if movieID is'nt received
 if(empty($_GET['MovieID'])) {
     header("Location: ../newmovies.php");
     die();
 }
-/*----------------------*/
 /********************************************************/
+
+//upon filling the popup login massage this section handles the request
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['uid']) && isset($_POST['upass'])) {
         $email = $_POST['uid'];
@@ -68,10 +71,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p><span>כדי לבחור את מועד הסרט אנא בחר תאריך:</span></p>
             <form method="post">
             <?php if($hasSessions): ?>
-<!--                <select name="dates" id="movieDates" onchange="insertSessionName(this);">-->
                 <select name="dates" id="movieDates">
                     <?php foreach ($sessions as $movieSession): ?>
-                        <option data-id="<?= $movieSession->ID ?>" value="<?php echo $movieSession->time . ' ' . $movieSession->movie_name; ?>">
+                        <option data-id="<?= $movieSession->ID ?>"
+                                value="<?php echo $movieSession->time . ' '
+                                                        . $movieSession->movie_name; ?>">
                             <?= $movieSession->movie_name ?> - <?= $movieSession->time ?>
                         </option>
                     <?php endforeach; ?>
@@ -100,7 +104,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div style="clear:both"></div>
             </div>
 <?php }else{
-    echo ("
+            //this will be printed if the user entered without logging in
+            echo ("
             <p>לפני שתוכל לגשת לקנית כרטיס אנא התחבר למשתמש שלך באתר.</p>
             <input type='button' id='show_login' class='btn btn-secondary' value='להתחברות'>
             <div id = 'loginform'>

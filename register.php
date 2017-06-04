@@ -3,6 +3,7 @@
 $noregister = false;
 $signedUp = false;
 
+//if there is a post request from the registration form it is handled here
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token'])) {
     if(Token::check($_POST['token'])) {
         $username = $_POST['username'];

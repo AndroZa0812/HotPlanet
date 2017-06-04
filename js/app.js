@@ -64,55 +64,6 @@ function checkLogin(form)
     }
 }
 
-function checkRegister(form)
-{
-    var username = document.getElementById('username').value;
-    var firstname = document.getElementById('firstname').value;
-    var lastname = document.getElementById('lastname').value;
-    var email = document.getElementById('email').value;
-    var pass = document.getElementById('pass').value;
-    var age = document.getElementById('age').value;
-
-    if(username == '') {
-        alert("חובה להכניס שם משתמש");
-    }
-    if(firstname == '') {
-        alert("חובה למלא שם פרטי");
-    }
-    else if(lastname == '') {
-        alert("חובה למלא שם משפחה");
-    }
-    else if(email == '') {
-        alert("חובה למלא אימייל");
-    }else if(pass == '') {
-        alert("חובה למלא סיסמא");
-    }
-    else if(age == '') {
-        alert("חובה למלא גיל");
-    }
-    else {
-        form.submit();
-    }
-}
-function checkContact(form)
-{
-    var info = document.getElementById('firstname').value;
-    var lastname = document.getElementById('lastname').value;
-    var info = document.getElementById('info').value;
-
-    if(firstname == '') {
-        alert("חובה למלא שם פרטי");
-    }
-    else if(lastname == '') {
-        alert("חובה למלא שם משפחה");
-    }
-    else if(info == '') {
-        alert("חובה למלא תוכן");
-    }
-    else {
-        form.submit();
-    }
-}
 
 $(document).ready(function()
 {
@@ -139,29 +90,6 @@ function hidepopup()
     $("#loginform").css({"visibility":"hidden","display":"none"});
 }
 
-function send(id , typeOfVote , numOfVotes) {
-    $.ajax({
-        type: 'post',
-        url: '../templates/vote.php',
-        dataType: 'JSON',
-        data: { MassageID: id, typeOfVote: typeOfVote, test: numOfVotes },
-        success: voteOkay
-    });
-}
-
-function insertSessionName($event){
-    // var selectedSession = name.value;
-    // var MovieName = "";
-    // selectedSession = selectedSession.match(/\S+/g) || [];
-    // document.getElementById("movieTimeTag").innerHTML = selectedSession[0] + " " + selectedSession[1];
-    // for(var i = 2 ; i < selectedSession.length ; i++){
-    //     MovieName = MovieName.concat(" " + selectedSession[i]);
-    // }
-    // document.getElementById("movieNameTag").innerHTML = MovieName;
-    // return selectedSession;
-    console.log($event.target.value);
-}
-
 $.fn.extend({
     print: function () {
         var frameName = 'printIframe';
@@ -175,10 +103,6 @@ $.fn.extend({
         return this;
     }
 })
-
-function RedirectToBuyMovie(movieID) {
-    window.location.href = "../buyMovie.php?MovieID=" + movieID.toString();
-}
 
 function addReview(massage) {
     var token = document.getElementById('token').value;
@@ -196,5 +120,22 @@ function addReview(massage) {
 
 function reviewSuccess(data) {
     $("div#reviews").html('' + data);
-    $("textarea#reviewArea").html('');
+    $("textarea#reviewArea").value = '';
+}
+
+function deleteReview(reviewID) {
+    $.ajax({
+        type: 'post',
+        url: '../alterReview.php',
+        data:{  reviewID: reviewID},
+        success: reviewDelSuccess
+    });
+}
+
+function reviewDelSuccess(data){
+    if(data != 1) {
+        $("div#reviews2").html('' + data);
+    } else {
+        $("div#reviews2").html('' + '<span style="color:red">אין ביקורות באתר</span>');
+    }
 }

@@ -12,7 +12,7 @@
                     <li><a href='logout.php'>התנתק</a></li>
                     <li><a href="myOrders.php">ההזמנות שלי</a>
                     <?php if ($_SESSION["UserName"]->admin) { ?>
-                    <li><a href="admin.php">נהל משתמשים</a></li>
+                    <li><a href="admin.php">דף מנהל</a></li>
                     <?php }?>
                 <?php } else { ?>
                     <li><a href='login.php'>התחברות</a></li>

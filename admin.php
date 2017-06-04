@@ -22,7 +22,7 @@ if($_SESSION['UserName']->admin != 1) {
     <main>
         <ul>
             <li><a href="userManager.php">מחיקת משתמשים</a></li>
-
+            <li><a href="reviewsManager.php">מחיקת ביקורות</a></li>
 
         </ul>
     </main>
