@@ -12,12 +12,12 @@ function delOkay(data) {
     $("table tbody#users").html('' + data);
 }
 
-function vote(id , typeOfVote , numOfVotes) {
+function vote(id , typeOfVote) {
     $.ajax({
         type: 'post',
         url: '../templates/vote.php',
         dataType: 'JSON',
-        data: { MassageID: id, typeOfVote: typeOfVote, test: numOfVotes },
+        data: { MassageID: id, typeOfVote: typeOfVote},
         success: voteOkay
     });
 }
